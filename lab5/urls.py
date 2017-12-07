@@ -21,13 +21,14 @@ from labApp.views import *
 urlpatterns = [
     #url(r'^$', home),url(r'^prodact/$', ProdactsView.as_view(), name='prodacts_url'),
     url(r'^customers/$', CustomerView.as_view(), name='customers_url'),
-    url(r'^registration_form/$', registration_form, name='registration_form'),
+
     url(r'^registration/$', registration, name='registration'),
-    url(r'^authorization_form/$', authorization_form, name='authorization_form'),
+url(r'^main/add', add),
     url(r'^authorization/$', authorization, name='authorization'),
     url(r'^logout$', logout_view, name='logout'),
 url(r'^orders/$', OrdersView.as_view()),
-    url(r'^success_authorization_form$', success_authorization_form, name='success_authorization_form'),
+url(r'^main/(?P<page_id>[0-9]+)', ItemsView.as_view()),
+    # url(r'^success_authorization_form$', success_authorization_form, name='success_authorization_form'),
     url(r'^success_authorization$', success_authorization, name='success_authorization'),
     url(r'^admin/', include(admin.site.urls))
 ]

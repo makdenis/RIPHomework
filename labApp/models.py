@@ -9,7 +9,7 @@ class Customer(models.Model):
     email = models.EmailField(max_length=75)
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
-
+    objects = UserManager()
 
     def __unicode__(self):
         return self.customer_name
