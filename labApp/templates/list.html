@@ -22,6 +22,13 @@
                     <ol class="list-unstyled text-center">
                         <li><a href="#">Price low to high</a></li>
                         <li><a href="#">Price high to low</a></li>
+                        {% if user.is_authenticated %}
+
+
+            <a role="button" class="btn btn-danger" href="{% url 'add' %}">add</a>
+
+
+        {% endif %}
                         <li><a href="#">Popularity</a></li>
                     </ol>
                     <div class="panel-body bg-primary">

@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}add{% endblock %}
+
+{% block content %}
+<div class="main_block_elem">
+<form method="POST" class="form-horizontal">
+    <h3 style="text-align:center">Регистрация пользователя</h3>
+    {% csrf_token %}
+
+
+    {% for field in form %}
+    <div class="form-group">
+        <label for="{{ field.id_for_label }}" class="col-sm-3 control-label">{{ field.label }}:</label>
+        <div class="col-sm-9">
+            {{ field }}
+        </div>
+    </div>
+    {% endfor %}
+    <div class="form-group">
+        <div class="col-sm-offset-3 col-sm-9">
+            <button type="submit" class="btn btn-primary">add</button>
+        </div>
+    </div>
+</form>
+</div>
+{% endblock %}
