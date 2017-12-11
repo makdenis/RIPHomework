@@ -9,6 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.generic import DetailView
 from django.core.files.storage import FileSystemStorage
+from django.core.files import File
 def home(request):
     par = {
         'header': '"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."'
@@ -103,14 +104,38 @@ class RegistrationForm(forms.Form):
     last_name = forms.CharField(label='Фамилия')
     first_name = forms.CharField(label='Имя')
 
-class ComputerForm(forms.Form):
+# class ComputerForm(forms.Form):
+#
+#     name = forms.CharField(min_length=1,label='Логин')
+#     price = forms.CharField(min_length=1,label='Логин')
+#     type = forms.CharField(min_length=1,label='Логин')
+#     quantity = forms.CharField(min_length=1,label='Логин')
+#     description = forms.CharField(min_length=1,label='Логин')
+#     pic= forms.ImageField(label=u'Аватар',required=False)
 
-    name = forms.CharField(min_length=1,label='Логин')
-    price = forms.CharField(min_length=1,label='Логин')
-    type = forms.CharField(min_length=1,label='Логин')
-    quantity = forms.CharField(min_length=1,label='Логин')
-    description = forms.CharField(min_length=1,label='Логин')
-    pic=forms.ImageField()
+class ComputerForm(forms.ModelForm):
+    class Meta(object):
+        model = Computer
+        fields = ['name', 'price', 'pic', 'description', 'quantity', 'type']
+
+    def save(self):
+        computer = Computer()
+        computer.name = self.cleaned_data.get('name')
+        computer.price = self.cleaned_data.get('price')
+        computer.type = self.cleaned_data.get('type')
+        computer.quantity = self.cleaned_data.get('quantity')
+        computer.description = self.cleaned_data.get('description')
+        f = self.cleaned_data.get('pic')
+        # if f is None:
+        #     file_url = r'/media/ts.jpg'
+        # else:
+        #     file_url = r'%s%s' % (computer.name, '.jpg')
+        #     FileSystemStorage().save(
+        #         '' + file_url,
+        #         File(f))
+        computer.pic = f
+        computer.save()
+
 class AuthorizationForm(forms.Form):
     username = forms.CharField(label='Логин')
     password = forms.CharField(widget=forms.PasswordInput, label='Пароль')
@@ -119,28 +144,26 @@ class AuthorizationForm(forms.Form):
 # регистрация
 def add(request):
     if request.method == 'POST':
-        form = ComputerForm(request.POST)
-        is_val = form.is_valid()
-        data = form.cleaned_data
 
-        if is_val:
-            computer = Computer()
-            computer.name = data.get('name')
-            computer.price = data.get('price')
-            computer.type = data.get('type')
-            computer.quantity = data.get('quantity')
-            computer.description = data.get('description')
-            # f = data.get("pic")
-            # if f is None:
-            #     file_url = r'/default.jpg'
-            #
-            # computer.pic = file_url
-            computer.save()
-            return HttpResponseRedirect('/main')
-    else:
-        form = ComputerForm()
+        name1 = request.POST.get('name')
+        price1 = request.POST.get('price')
+        type1 = request.POST.get('type')
+        quantity1 = request.POST.get('quantity')
+        description1 = request.POST.get('description')
+        pic1 = request.FILES.get('pic')
+        comp=Computer(name=name1,price=price1, type=type1,quantity=quantity1,description=description1,pic=pic1)
+        comp.save()
+        # form = ComputerForm(request.POST,request.FILES)
+        # if form.is_valid():
+        #     pic2=request.FILES.get('pic')
+        #     Comp = Computer(pic=pic2)
+        #     Comp.save()
+        #     form.save()
+        return HttpResponseRedirect('/')
+    # else:
+        # form = ComputerForm()
 
-    return render(request, 'add.html', {'form': form})
+    return render(request, 'add.html', locals())
 
 
 def registration(request):

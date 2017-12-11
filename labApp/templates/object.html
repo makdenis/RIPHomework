@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load staticfiles %}
+
 {% csrf_token %}
 {% block title %}Products{% endblock %}
 {% block content %}
@@ -10,6 +10,7 @@
         <div class="row">
         <br>
             <div class="col-lg-4">
+                {% load staticfiles %}
                 <img src="{{ computer.pic }}" width="100%" border="10%"/>
             </div>
             <div class="col-lg-4">

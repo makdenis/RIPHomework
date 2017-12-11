@@ -30,11 +30,10 @@ url(r'^add/$', add, name='add'),
     url(r'^authorization/$', authorization, name='authorization'),
     url(r'^logout/$', logout_view, name='logout'),
 url(r'^orders/$', OrdersView.as_view()),
-url(r'^main/$', ItemsView.as_view()),
+url(r'^$', ItemsView.as_view()),
     # url(r'^success_authorization_form$', success_authorization_form, name='success_authorization_form'),
     url(r'^success_authorization$', success_authorization, name='success_authorization'),
     url(r'^admin/', include(admin.site.urls))
 ]
-urlpatterns += patterns('',
-    (r'^media/(?P<path>.*)$', 'django.views.static.serve', {
-    'document_root': settings.MEDIA_ROOT}))
+# urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
