@@ -63,6 +63,20 @@ class BelongTOInline(admin.TabularInline):
     model = BelongTO
     extra = 1
     verbose_name_plural = 'Orders list'
+@admin.register(Order)
+class OrderAdmin(admin.ModelAdmin):
+    def total(self, request):
+        total = 0
+        items = BelongTO.objects.filter(order_id=request.code)
+        for i in items:
+            computer = Computer.objects.get(name=i.item_id)
+            total += computer.price
+        return total
+    readonly_fields = ('total',)
+    list_display = ('code', 'customer', 'total', 'is_open', 'date',)
+    inlines = (BelongTOInline,)
+
+
 
 @admin.register(Computer)
 class ComputerAdmin(admin.ModelAdmin):
