@@ -6,7 +6,7 @@
 {% block content %}
     <div class="col-md-8">
 			<h3>Add new</h3>
-
+{{ error }}
 			<form method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
 				<div class="form-group">

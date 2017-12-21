@@ -9,13 +9,8 @@ https://docs.djangoproject.com/en/1.11/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.11/ref/settings/
 """
-
+from django.conf.global_settings import TEMPLATES
 import os
-
-
-
-
-
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -32,7 +27,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -43,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'labApp.apps.Lab5AppConfig',
+    'el_pagination'
 
 ]
 
@@ -70,6 +65,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.request',  ## For EL-pagination
             ],
         },
     },
@@ -77,7 +73,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'lab5.wsgi.application'
 
-
+EL_PAGINATION_LOADING = 'loading'
+EL_PAGINATION_PER_PAGE = 10
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
@@ -112,11 +109,10 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
 
-LANGUAGE_CODE = 'ru-ru' #en-us
+LANGUAGE_CODE = 'ru-ru'  # en-us
 
 TIME_ZONE = 'Europe/Moscow'
 
@@ -126,13 +122,12 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 MEDIA_ROOT = 'media/media'
 MEDIA_URL = '/'
 # STATIC_URL = '/static/'
-#STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # STATIC_ROOT = 'staticfiles'
 STATIC_URL = '/static/'

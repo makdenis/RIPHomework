@@ -3,6 +3,7 @@ from django.contrib.auth.models import User, UserManager
 from django.contrib import admin
 from django.utils import timezone
 
+
 class Customer(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     customer_name = models.CharField(max_length=30)
@@ -33,23 +34,23 @@ class Computer(models.Model):
     # pic = models.ImageField(upload_to='media/', default='media/ts.jpg')
     quantity = models.IntegerField(null=True, default=0)
     pic = models.ImageField(upload_to='media/', null=True, blank=True)
+
     def __str__(self):
         return self.name
 
 
-
 class Order(models.Model):
-
     date = models.DateTimeField(default=timezone.now)
     items = models.ManyToManyField(Computer, through='BelongTo')
     code = models.AutoField(max_length=6, unique=True, primary_key=True)
-    customer = models.ForeignKey(Customer)
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     total = models.DecimalField(
         decimal_places=2, max_digits=10, unique=False, default=0.0)
     is_open = models.BooleanField(default=True)
 
     def __str__(self):
         return str(self.code)
+
 
 class BelongTO(models.Model):
     item = models.ForeignKey(Computer, on_delete=models.CASCADE)

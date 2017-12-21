@@ -20,27 +20,18 @@ from django.conf.urls.static import static
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.conf import settings
 
+
 urlpatterns = [
-    #url(r'^$', home),url(r'^prodact/$', ProdactsView.as_view(), name='prodacts_url'),
     url(r'^customers/$', CustomerView.as_view(), name='customers_url'),
-url(r'^item-(?P<pk>[A-Za-z0-9- ]+)$',
+    url(r'^item-(?P<pk>[A-Za-z0-9- ]+)$',
         OneItem.as_view(), name='item_view'),
     url(r'^registration/$', registration, name='registration'),
-url(r'^add/$', add, name='add'),
+    url(r'^add/$', add, name='add'),
     url(r'^authorization/$', authorization, name='authorization'),
     url(r'^logout/$', logout_view, name='logout'),
-url(r'^orders/$', OrdersView.as_view()),
-url(r'^$', ItemsView.as_view()),
-    # url(r'^success_authorization_form$', success_authorization_form, name='success_authorization_form'),
+    url(r'^orders/$', OrdersView.as_view(), name='orders'),
+    url(r'^$', ItemsView.as_view()),
     url(r'^success_authorization$', success_authorization, name='success_authorization'),
     url(r'^admin/', include(admin.site.urls)),
-url(r'^ord/$', ord, name='ord')
-]
-# urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    url(r'^ord/(?P<namekomp>[A-Za-z0-9- ]+)$', ord, name='ord', )]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-# ajax_functions = [
-#
-#     # url(r'^ajax/last_bookings/', views.ajax_last_bookings, name='ajax_last_bookings'),
-# ]
-#
-# urlpatterns += ajax_functions
