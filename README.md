@@ -1,1 +1,1 @@
-# lab7_django
+# RIPHOMEWORK
