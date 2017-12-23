@@ -30,7 +30,7 @@ urlpatterns = [
     url(r'^authorization/$', authorization, name='authorization'),
     url(r'^logout/$', logout_view, name='logout'),
     url(r'^orders/$', OrdersView.as_view(), name='orders'),
-    url(r'^$', ItemsView.as_view()),
+    url(r'^$', ItemsView),
     url(r'^success_authorization$', success_authorization, name='success_authorization'),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^ord/(?P<namekomp>[A-Za-z0-9- ]+)$', ord, name='ord', )]

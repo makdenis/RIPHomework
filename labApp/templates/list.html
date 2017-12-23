@@ -12,8 +12,11 @@
                 {% block js %}
                     {{ block.super }}
                     <script src="http://code.jquery.com/jquery-latest.js"></script>
-                    <script src="/labApp/static/js/el-pagination.js"></script>
-                    <script>$.endlessPaginate();</script>
+                    <script src="/static/js/el-pagination.js"></script>
+                    <script>$.endlessPaginate({
+            paginateOnScroll: true,
+            paginateOnScrollMargin: 20
+        });</script>
                 {% endblock %}
                 <div id="loading_block"></div>
             </div>

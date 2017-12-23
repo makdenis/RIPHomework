@@ -11,6 +11,7 @@ from django.views.generic import DetailView
 from django.core.files.storage import FileSystemStorage
 from django.core.files import File
 from el_pagination.views import AjaxListView
+from el_pagination.decorators import page_template
 
 
 class CustomerView(ListView):
@@ -130,29 +131,28 @@ def success_authorization(request):
     return HttpResponseRedirect('/')
 
 
-class ItemsView(AjaxListView):
-    template_name = 'labApp/templates/list.html'
-    context_object_name = "list_object"
-    page_template = 'labApp/templates/list_object.html'
-
-    def get(self, request):
-        dict_customers = {}  # код компа - массив покупателей
-        data = Computer.objects.all()
-        form = ComputerForm()
-        if request.is_ajax():
-            return render(request, 'list_object.html',
-                          context={'search': data,
-                                   'customers': dict_customers,
-
-                                   'form': form
-                                   })
-        return render(request, 'list.html',
+# class ItemsView(AjaxListView):
+#     template_name = 'labApp/templates/list.html'
+#     context_object_name = "list_object"
+#     page_template = 'labApp/templates/list_object.html'
+@page_template('list_object.html')
+def ItemsView(request,template='list.html', extra_context=None):
+    dict_customers = {}  # код компа - массив покупателей
+    data = Computer.objects.all()
+    form = ComputerForm()
+    # if request.is_ajax():
+    #     return render(request, 'list_object.html',
+    #                       context={'search': data,
+    #                                'customers': dict_customers,
+    #
+    #                                'form': form
+    #                                })
+    return render(request, template,
                       context={'search': data,
                                'customers': dict_customers,
 
                                'form': form
                                })
-
 
 class OneItem(DetailView):
     model = Computer
@@ -163,7 +163,7 @@ class OneItem(DetailView):
 def ord(request, namekomp):
      if request.method == "GET":
         comp = Computer.objects.get(name=namekomp)
-        id = request.user.id
+        id = request.user.id-1
         cust = Customer.objects.get(id=id)
         price = 1
         order = Order()
@@ -186,7 +186,7 @@ class OrdersView(View):
         computers_in_order = BelongTO.objects.all()  # код заказа - компы
         prices = {}  # цены
         data = Order.objects.filter(
-            customer_id=request.user.id).all()  # заказы пользователя
+            customer_id=request.user.id-1).all()  # заказы пользователя
         for o in data:
             computers = BelongTO.objects.filter(
                 order_id=o.code).all()  # компьютеры заказа
