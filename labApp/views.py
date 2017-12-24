@@ -72,7 +72,7 @@ def add(request):
             comp = Computer(name=name1, price=price1, type=type1, quantity=quantity1, description=description1,
                             pic=pic1)
             comp.save()
-        return HttpResponseRedirect('/item-'+name1)
+        return HttpResponseRedirect('/item-' + name1)
     return render(request, 'add.html', locals())
 
 
@@ -136,7 +136,7 @@ def success_authorization(request):
 #     context_object_name = "list_object"
 #     page_template = 'labApp/templates/list_object.html'
 @page_template('list_object.html')
-def ItemsView(request,template='list.html', extra_context=None):
+def ItemsView(request, template='list.html', extra_context=None):
     dict_customers = {}  # код компа - массив покупателей
     data = Computer.objects.all()
     form = ComputerForm()
@@ -151,24 +151,13 @@ def ItemsView(request,template='list.html', extra_context=None):
                     if cur_cust not in customers:
                         customers.append(cur_cust)  # покупателя в купили
         dict_customers[c.name] = customers  # список покупателей для компа
-    # if request.is_ajax():
-    #     return render(request, 'list_object.html',
-    #                       context={'search': data,
-    #                                'customers': dict_customers,
-    #
-    #                                'form': form
-    #
-    #
-    #                             })
-
-
-    # print(context)
     return render(request, template,
-                      context={'search': data,
-                               'customers': dict_customers,
+                  context={'search': data,
+                           'customers': dict_customers,
 
-                               'form': form
-                               })
+                           'form': form
+                           })
+
 
 class OneItem(DetailView):
     model = Computer
@@ -185,7 +174,7 @@ class OneItem(DetailView):
             orders = Order.objects.all()
             for o in orders:  # по заказам
                 cur_cust = o.customer.first_name
-                 # покупатель, сделавший заказ
+                # покупатель, сделавший заказ
                 for item in o.items.all():
                     # по элементам заказа
                     # print(c.name)
@@ -200,9 +189,9 @@ class OneItem(DetailView):
 
 
 def ord(request, namekomp):
-     if request.method == "GET":
+    if request.method == "GET":
         comp = Computer.objects.get(name=namekomp)
-        id = request.user.id-1
+        id = request.user.id - 1
         cust = Customer.objects.get(id=id)
         price = 1
         order = Order()
@@ -225,7 +214,7 @@ class OrdersView(View):
         computers_in_order = BelongTO.objects.all()  # код заказа - компы
         prices = {}  # цены
         data = Order.objects.filter(
-            customer_id=request.user.id-1).all()  # заказы пользователя
+            customer_id=request.user.id - 1).all()  # заказы пользователя
         for o in data:
             computers = BelongTO.objects.filter(
                 order_id=o.code).all()  # компьютеры заказа
