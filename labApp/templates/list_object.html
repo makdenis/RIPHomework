@@ -20,7 +20,14 @@
                 </div>
                 <div class="col-lg-4">
                     <h4>{{ item.description }}</h4>
-
+<h4>Have already bought such users as:</h4>
+                    {% for key, value in customers.items %}
+                        {% if key == item.name %}
+                            {% for v in value %}
+                                <h5>{{ v }}</h5>
+                            {% endfor %}
+                         {% endif %}
+                    {% endfor %}
                     <h4>Available: </h4>
                     <h4 id="available{{ item.name }}">{{ item.quantity }}</h4>
                 </div>

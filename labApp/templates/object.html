@@ -18,6 +18,14 @@
                 <br>
                 <h5>{{ computer.description }}</h5>
                 <br>
+                <h4>Have already bought such users as:</h4>
+                    {% for key, value in customers.items %}
+                        {% if key == computer.name %}
+                            {% for v in value %}
+                                <h5>{{ v }}</h5>
+                            {% endfor %}
+                         {% endif %}
+                    {% endfor %}
                 Available: <span id="available">{{ computer.quantity }}</span></h4>
             <br>
                 <h4>Price: {{ computer.price }}</h4>

@@ -140,13 +140,29 @@ def ItemsView(request,template='list.html', extra_context=None):
     dict_customers = {}  # код компа - массив покупателей
     data = Computer.objects.all()
     form = ComputerForm()
+    for c in data:  # по компам
+        customers = []  # купили
+        orders = Order.objects.all()
+        for o in orders:  # по заказам
+            cur_cust = o.customer.first_name
+            # print(cur_cust)# покупатель, сделавший заказ
+            for item in o.items.all():  # по элементам заказа
+                if item.name == c.name:  # если текущий комп
+                    if cur_cust not in customers:
+                        customers.append(cur_cust)  # покупателя в купили
+        dict_customers[c.name] = customers  # список покупателей для компа
     # if request.is_ajax():
     #     return render(request, 'list_object.html',
     #                       context={'search': data,
     #                                'customers': dict_customers,
     #
     #                                'form': form
-    #                                })
+    #
+    #
+    #                             })
+
+
+    # print(context)
     return render(request, template,
                       context={'search': data,
                                'customers': dict_customers,
@@ -158,6 +174,29 @@ class OneItem(DetailView):
     model = Computer
     context_object_name = 'computer'
     template_name = 'object.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(OneItem, self).get_context_data(**kwargs)
+        dict_customers = {}  # код компа - массив покупателей
+        data = Computer.objects.all()
+
+        for c in data:  # по компам
+            customers = []  # купили
+            orders = Order.objects.all()
+            for o in orders:  # по заказам
+                cur_cust = o.customer.first_name
+                 # покупатель, сделавший заказ
+                for item in o.items.all():
+                    # по элементам заказа
+                    # print(c.name)
+                    if item.name == c.name:  # если текущий комп
+                        if cur_cust not in customers:
+                            customers.append(cur_cust)  # покупателя в купили
+            dict_customers[c.name] = customers
+            # print(dict_customers)
+        context['customers'] = dict_customers
+        # print(context)
+        return context
 
 
 def ord(request, namekomp):
